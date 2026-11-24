@@ -59,9 +59,9 @@ jobs:
           - classifier: windows-x86_64
             family: windows
             runner: windows-2022
-            msystem: CLANG64
-            package-prefix: mingw-w64-clang-x86_64
-            compiler: clang
+            msystem: MINGW64
+            package-prefix: mingw-w64-x86_64
+            compiler: gcc
             task: compileNativeForWindowsX8664
             directory: windows-x86_64
             library: libdatachannel-java.dll

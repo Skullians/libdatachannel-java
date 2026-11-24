@@ -7,14 +7,13 @@ case "$TARGET_CLASSIFIER:$MSYSTEM" in
         cxx_compiler=clang++
         expected_target=aarch64-w64-windows-gnu
         ;;
-    windows-x86_64:CLANG64)
-        # test TODO
-        compiler=clang
-        cxx_compiler=clang++
-        expected_target=x86_64-w64-windows-gnu
+    windows-x86_64:MINGW64)
+        compiler=gcc
+        cxx_compiler=g++
+        expected_target=x86_64-w64-mingw32
         ;;
     *)
-        echo "Use CLANGARM64 on Windows ARM64 or CLANG64 on Windows x86_64" >&2
+        echo "Use CLANGARM64 on Windows ARM64 or MINGW64 on Windows x86_64" >&2
         exit 1
         ;;
 esac
