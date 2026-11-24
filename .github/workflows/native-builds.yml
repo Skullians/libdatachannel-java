@@ -55,12 +55,13 @@ jobs:
             platform: arm64
             libc: musl
             runtime: alpine:3.22
+          # TEST - todo explain
           - classifier: windows-x86_64
             family: windows
             runner: windows-2022
-            msystem: MINGW64
-            package-prefix: mingw-w64-x86_64
-            compiler: gcc
+            msystem: CLANG64
+            package-prefix: mingw-w64-clang-x86_64
+            compiler: clang
             task: compileNativeForWindowsX8664
             directory: windows-x86_64
             library: libdatachannel-java.dll
@@ -171,6 +172,16 @@ jobs:
             if ($LASTEXITCODE -ne 0) {
               exit $LASTEXITCODE
             }
+          }
+      - name: temp windows check
+        if: matrix.family == 'windows'
+        shell: pwsh
+        run: |
+          $env:PATH = "$env:JAVA_HOME\bin;$env:SystemRoot\System32;$env:SystemRoot"
+          & "$env:JAVA_HOME\bin\java.exe" -cp "build/native-smoke/*;build/native-smoke/classes" `
+            tel.schich.libdatachannel.NativeHandleLeakProbe
+          if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
           }
       - name: Load bundle in the host JVM
         if: matrix.family == 'macos' || matrix.libc == 'glibc'
